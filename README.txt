@@ -16,3 +16,5 @@ For following test files:
 	./project2
 
 This program emulates a memory allocation system including malloc and free. When the caller requests a block of memory, it will call psumalloc which returns a pointer to a block of memory. When the caller is finished using the pointer, it will free it by calling psufree to allow other programs to use that memory. This program simulates a simplified version of all of the functions of malloc and free by utilizing a linked list of free nodes.
+
+The project consisted of writing the entirety of the psumemory.c file. All other files were provided already completed. The other files exist as a wrapper around psumemory.h and psumemory.c to be able to automatically test the functionality of the written code.
