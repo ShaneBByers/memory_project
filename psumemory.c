@@ -1,3 +1,13 @@
+/********************
+ * Shane Byers
+ * Memory Project
+ * CMPSC 473 - Operating Systems
+ * 11/12/2015
+ * This is the main file that gets called from all of the provided test files.
+ * The psumalloc and psufree are the two functions that are called from other files. The other functions are simply internal.
+*********************/
+
+
 #include "psumemory.h"
 
 int psumeminit(int algo_code, int region_size) {
