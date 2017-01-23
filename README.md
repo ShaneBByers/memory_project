@@ -5,11 +5,15 @@ CMPSC 473 Project 2: Design and evaluation of a user-space memory allocator
 11/12/2015
 
 TO RUN:
+
 > make SOURCE=<path_to_input_file>
+
 > ./memory_project
 
 EXAMPLE:
+
 > make SOURCE=input_files/small_symmetric_worst.c
+
 > ./memory_project
 
 There are eight input files that can be used for testing.
