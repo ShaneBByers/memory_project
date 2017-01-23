@@ -2,8 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include <time.h>
-#include "psumemory.h"
+#include "../psumemory.h"
 
 #define NUM 100
 
@@ -31,7 +30,7 @@ void read_test(test* ptr, FILE* f){
 
 
 int main(){
-    FILE* f = fopen ("test_output8.txt", "w");
+    FILE* f = fopen ("output_files/small_symmetric_worst_output.txt", "w");
     int size;
     int sizeOfRegion = 1 << 20;// 1MB
     int a = psumeminit(1, sizeOfRegion);
@@ -81,6 +80,5 @@ int main(){
         }
     }
     fclose(f);
-	printf("MALLOC: %d\nFREE: %d\n",malloccounter,freecounter);
     return 0;
 }

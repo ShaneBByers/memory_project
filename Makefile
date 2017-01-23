@@ -1,19 +1,8 @@
+CC = gcc
+CFLAGS = -g -std=gnu99 -Wall -Wextra -Wno-unused-parameter
+
 default:
-	gcc -g -std=gnu99 project2 -Wall -Wextra -Wno-unused-parameter small_asymmetric_best.c psumemory.h psumemory.c
-
-#	gcc -g -std=gnu99 project2 -Wall -Wextra -Wno-unused-parameter small_asymmetric_worst.c psumemory.h psumemory.c
-
-#	gcc -g -std=gnu99 project2 -Wall -Wextra -Wno-unused-parameter small_symmetric_best.c psumemory.h psumemory.c
-
-#	gcc -g -std=gnu99 project2 -Wall -Wextra -Wno-unused-parameter small_symmetric_worst.c psumemory.h psumemory.c
-
-#	gcc -g -std=gnu99 project2 -Wall -Wextra -Wno-unused-parameter large_asymmetric_best.c psumemory.h psumemory.c
-
-#	gcc -g -std=gnu99 project2 -Wall -Wextra -Wno-unused-parameter large_asymmetric_worst.c psumemory.h psumemory.c
-
-#	gcc -g -std=gnu99 project2 -Wall -Wextra -Wno-unused-parameter large_symmetric_best.c psumemory.h psumemory.c
-
-#	gcc -g -std=gnu99 project2 -Wall -Wextra -Wno-unused-parameter large_symmetric_worst.c psumemory.h psumemory.c
+	$(CC) $(CFLAGS) psumemory.c $(SOURCE) -o memory_project
 
 clean:
-	rm project2
+	rm memory_project

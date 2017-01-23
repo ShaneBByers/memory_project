@@ -2,8 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include <time.h>
-#include "psumemory.h"
+#include "../psumemory.h"
 
 #define NUM 100
 
@@ -36,7 +35,7 @@ void read_test(test* ptr, FILE* f){
 }
 
 int main(){
-	FILE* f = fopen ("test_output4.txt", "w");
+	FILE* f = fopen ("output_files/large_symmetric_worst_output.txt", "w");
 	int size;
 	int sizeOfRegion = 1 << 20;// 1MB
 	int malloccounter = 0;
@@ -59,10 +58,7 @@ int main(){
 			else{
 				size = 64 * 1024;
 			}
-			
-			
             void* a = psumalloc(size);
-			
 			if (a == NULL){
 				malloccounter++;
 				fprintf(f, "No extra space for allocation in memory!\n");
@@ -75,15 +71,7 @@ int main(){
 
 		for (int i = 0; i < NUM; ++i)
 		{
-			long long unsigned int diff;
-			struct timespec start, end;
-
-			clock_gettime(CLOCK_MONOTONIC, &start);
 			int a = psufree(pointer_array[i]);
-			clock_gettime(CLOCK_MONOTONIC, &end);
-
-			diff = 1000000000 * (end.tv_sec - start.tv_sec) + end.tv_nsec - start.tv_nsec;
-			printf("elapsed time = %llu nanoseconds\n", (long long unsigned int) diff);
 			if (a == 0){
 				fprintf(f, "No.%d chunk has been freed. \n", i);
 			}
@@ -94,6 +82,5 @@ int main(){
 		}
 	}
 	fclose(f);
-	printf("MALLOC: %d\nFREE: %d\n",malloccounter,freecounter);
 	return 0;
 }

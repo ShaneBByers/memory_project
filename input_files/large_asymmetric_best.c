@@ -1,22 +1,17 @@
-//
-//  main.c
-//  Cmpsc473p2
-//
-//  Created by Chen Chen on 3/21/15.
-//  Copyright (c) 2015 Chen Chen. All rights reserved.
-//
-
 #define NUM 100
 #include <stdio.h>
-#include <time.h>
-#include "psumemory.h"
+#include <sys/time.h>
+#include "../psumemory.h"
 
 #define NUM 100
 
 typedef struct _test{
     int a;
+    int b;
+    int c;
     char one;
     char two;
+    char three;
 } test;
 
 void write_test(test* ptr){
@@ -24,19 +19,22 @@ void write_test(test* ptr){
         return;
     }
     ptr->a = 1;
+    ptr->b = 2;
+    ptr->c = 3;
     ptr->one = 'A';
     ptr->two = 'B';
+    ptr->three = 'C';
 }
 
 void read_test(test* ptr, FILE* f){
     if (ptr == NULL){
         return;
     }
-    fprintf(f, "This struct contains: %d, %c and %c. \n", ptr->a, ptr->one, ptr->two);
+    fprintf(f, "This struct contains: %d, %d, %d, %c, %c and %c. \n", ptr->a, ptr->b, ptr->c, ptr->one, ptr->two, ptr->three);
 }
 
 int main(){
-    FILE* f = fopen ("test_output5.txt", "w");
+    FILE* f = fopen ("output_files/large_asymmetric_best_output.txt", "w");
     int size;
     int sizeOfRegion = 1 << 20;// 1MB
 	int malloccounter = 0;
@@ -47,24 +45,29 @@ int main(){
     }
     
     void* pointer_array[16][NUM];
-    for (int i = 0; i < 16; i++){
-        for (int j = 0; j < NUM; j++){
+    for (int i = 0; i < 16; i++) {
+        for (int j = 0; j < NUM; j++) {
             pointer_array[i][j] = NULL;
         }
     }
-
+    
     for (int i = 0; i < 16; i++){
         for (int j = 0; j < NUM; ++j)
         {
-            size = rand()%248 + 8;
+            if (j % 2 != 0){
+                size = 64;
+            }
+            else{
+                size = 64 * 1024;
+            }
 
 			test* a = (test*)psumalloc(size);
-			
+
             write_test(a);
             read_test(a, f);
             if (a == NULL){
 				malloccounter++;
-                fprintf(f, "No. %d: No extra space for allocation in memory!\n", j);
+                fprintf(f, "No.%d has no extra space for allocation in memory!\n", j);
             }
             else{
                 pointer_array[i][j] = a;
@@ -72,6 +75,7 @@ int main(){
             }
         }
     }
+    
     int half = 16;
     while (half != 0){
         half /= 2;
@@ -82,29 +86,20 @@ int main(){
         else{
             bound = 1;
         }
-        for (int i = half; i < bound ; i++){
+        for (int i = half; i < bound; i++){
             for (int j = 0; j < NUM; j++)
             {
-						long long unsigned int diff;
-			struct timespec start, end;
-
-			clock_gettime(CLOCK_MONOTONIC, &start);
                 int a = psufree(pointer_array[i][j]);
-								clock_gettime(CLOCK_MONOTONIC, &end);
-
-			diff = 1000000000 * (end.tv_sec - start.tv_sec) + end.tv_nsec - start.tv_nsec;
-			printf("elapsed time = %llu nanoseconds\n", (long long unsigned int) diff);
                 if (a == 0){
+					freecounter++;
                     fprintf(f, "No.%d chunk has been freed. \n", j);
                 }
                 else{
-					freecounter++;
                     fprintf(f, "Can not free No.%d chunk. \n", j);
                 }
             }
         }
     }
     fclose(f);
-	printf("MALLOC: %d\nFREE: %d\n",malloccounter,freecounter);
     return 0;
 }
